@@ -263,7 +263,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="w-full max-w-2xl"
+              className="w-full max-w-2xl min-w-0"
             >
               <ResumeUploader
                 onAnalysisComplete={handleAnalysisComplete}

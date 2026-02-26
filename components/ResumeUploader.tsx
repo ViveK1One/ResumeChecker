@@ -93,27 +93,27 @@ export default function ResumeUploader({
   }
 
   return (
-    <div className="space-y-8 w-full flex flex-col items-center">
+    <div className="space-y-8 w-full max-w-full min-w-0 flex flex-col items-center overflow-x-hidden">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-8 w-full flex flex-col items-center border-2 border-gray-700 rounded-3xl p-8 bg-gray-900/50 backdrop-blur-sm"
+        className="space-y-6 sm:space-y-8 w-full max-w-full min-w-0 flex flex-col items-center border-2 border-gray-700 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 bg-gray-900/50 backdrop-blur-sm"
       >
         {/* Header */}
-        <div className="text-center">
+        <div className="text-center w-full min-w-0">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full mb-6 shadow-lg"
+            className="inline-flex items-center justify-center w-14 h-14 sm:w-20 sm:h-20 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full mb-4 sm:mb-6 shadow-lg"
           >
-            <Sparkles className="w-10 h-10 text-white" />
+            <Sparkles className="w-7 h-7 sm:w-10 sm:h-10 text-white" />
           </motion.div>
-          <h2 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4 px-1">
             Upload Your Resume
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed px-1">
             Get instant AI-powered analysis with detailed feedback on formatting, 
             ATS optimization, and professional recommendations.
           </p>
@@ -123,11 +123,11 @@ export default function ResumeUploader({
         <motion.div
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
-          className="relative w-full max-w-3xl"
+          className="relative w-full max-w-3xl min-w-0"
         >
           <div
             {...getRootProps()}
-            className={`relative border-3 border-dashed rounded-3xl p-16 text-center cursor-pointer transition-all duration-300 ${
+            className={`relative border-3 border-dashed rounded-2xl sm:rounded-3xl p-8 sm:p-12 md:p-16 text-center cursor-pointer transition-all duration-300 ${
               isDragActive
                 ? 'border-blue-400 bg-blue-900/20 shadow-2xl shadow-blue-500/20'
                 : 'border-gray-500 hover:border-blue-400 hover:bg-gray-800/50 hover:shadow-xl'
@@ -135,7 +135,7 @@ export default function ResumeUploader({
           >
             <input {...getInputProps()} />
             
-            <div className="space-y-8">
+            <div className="space-y-4 sm:space-y-8">
               {/* Upload Icon */}
               <motion.div 
                 animate={{ 
@@ -144,22 +144,22 @@ export default function ResumeUploader({
                   y: isDragActive ? -5 : 0
                 }}
                 transition={{ duration: 0.3 }}
-                className="mx-auto w-24 h-24 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center shadow-lg"
+                className="mx-auto w-16 h-16 sm:w-24 sm:h-24 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full flex items-center justify-center shadow-lg"
               >
-                <FileUp className="w-12 h-12 text-white" />
+                <FileUp className="w-8 h-8 sm:w-12 sm:h-12 text-white" />
               </motion.div>
               
               {/* Upload Text */}
-              <div className="space-y-4">
-                <h3 className="text-2xl font-bold text-white">
+              <div className="space-y-3 sm:space-y-4">
+                <h3 className="text-lg sm:text-2xl font-bold text-white px-2">
                   {isDragActive ? 'Drop your resume here' : 'Upload your resume'}
                 </h3>
-                <p className="text-lg text-gray-300">
+                <p className="text-sm sm:text-lg text-gray-300 px-2">
                   Drag and drop your PDF or DOCX file here, or click to browse
                 </p>
                 
                 {/* File Type Indicators */}
-                <div className="flex items-center justify-center space-x-8 text-sm">
+                <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm">
                   <div className="flex items-center space-x-2 text-gray-400">
                     <div className="w-3 h-4 bg-red-500 rounded-sm"></div>
                     <span>PDF</span>
@@ -219,22 +219,24 @@ export default function ResumeUploader({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="flex items-center justify-between p-6 bg-gradient-to-r from-green-900/50 to-emerald-900/50 border border-green-700 rounded-xl shadow-lg backdrop-blur-sm w-full max-w-3xl"
+              className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 sm:p-6 bg-gradient-to-r from-green-900/50 to-emerald-900/50 border border-green-700 rounded-xl shadow-lg backdrop-blur-sm w-full max-w-3xl min-w-0"
             >
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-green-800 rounded-full flex items-center justify-center">
-                  <CheckCircle className="w-6 h-6 text-green-300" />
+              <div className="flex items-center gap-3 min-w-0 flex-1">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 bg-green-800 rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-300" />
                 </div>
-                <div>
-                  <p className="font-semibold text-green-100 text-lg">{uploadedFile.name}</p>
-                  <p className="text-sm text-green-300">
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-green-100 text-base sm:text-lg truncate" title={uploadedFile.name}>
+                    {uploadedFile.name}
+                  </p>
+                  <p className="text-xs sm:text-sm text-green-300">
                     {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB • Ready to analyze
                   </p>
                 </div>
               </div>
               <button
                 onClick={handleRemoveFile}
-                className="text-green-300 hover:text-green-100 transition-colors font-medium px-4 py-2 rounded-lg hover:bg-green-800/30"
+                className="text-green-300 hover:text-green-100 transition-colors font-medium px-4 py-2 rounded-lg hover:bg-green-800/30 flex-shrink-0 w-full sm:w-auto text-center"
               >
                 Remove
               </button>
@@ -252,10 +254,10 @@ export default function ResumeUploader({
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleAnalyze}
-              className="w-full max-w-3xl bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold py-5 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-3 text-xl"
+              className="w-full max-w-3xl min-w-0 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold py-4 px-4 sm:py-5 sm:px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-xl"
             >
-              <FileText className="w-7 h-7" />
-              <span>Analyze Resume with AI</span>
+              <FileText className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0" />
+              <span className="text-center">Analyze Resume with AI</span>
             </motion.button>
           )}
         </AnimatePresence>
@@ -267,16 +269,16 @@ export default function ResumeUploader({
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="text-center py-16 w-full max-w-3xl"
+              className="text-center py-10 sm:py-16 w-full max-w-3xl min-w-0"
             >
               <div className="relative mb-8">
                 <Loader2 className="w-16 h-16 text-blue-300 animate-spin mx-auto" />
                 <div className="absolute inset-0 w-16 h-16 border-4 border-gray-700 border-t-blue-300 rounded-full animate-spin mx-auto"></div>
               </div>
-              <h3 className="text-2xl font-semibold text-white mb-3">
+              <h3 className="text-lg sm:text-2xl font-semibold text-white mb-3">
                 Analyzing your resume...
               </h3>
-              <p className="text-gray-300 mb-6 text-lg">
+              <p className="text-gray-300 mb-6 text-sm sm:text-lg">
                 Our AI is examining your resume for optimization opportunities
               </p>
               <div className="flex items-center justify-center space-x-2 text-sm text-gray-400">

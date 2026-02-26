@@ -60,7 +60,8 @@ export default function ProfilePage() {
 
     useEffect(() => {
         if (status === 'unauthenticated') {
-            router.push('/auth/signin')
+            router.replace('/auth/signin')
+            return
         }
         if (status === 'authenticated') {
             fetchProfileAndHistory()
