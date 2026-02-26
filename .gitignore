@@ -1,0 +1,78 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Next.js
+/.next/
+/out/
+
+# Production
+/build
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ========== CREDENTIALS & SECRETS (never commit these) ==========
+.env
+.env.local
+.env.example
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env*.local
+*.env
+env.example
+
+# Backup / dump files that might contain secrets
+*.bak
+*.backup
+*credentials*
+*secrets*
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Uploads
+/uploads/
+
+# PDFs and demos (don't push to GitHub)
+*.pdf
+*demo*.pdf
+*report*.pdf
+
+# Unneeded docs and scripts (keep only README.md at root)
+API_KEYS_SETUP.md
+DEPLOYMENT.md
+JOB_INTEGRATION.md
+RSS_INTEGRATION.md
+SECURITY.md
+resume_analysis_template.md
+list-gemini-models.js
+test-gemini.js
+verify-fix.js
+verify-fix-pro.js
+sample-resume.txt
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
