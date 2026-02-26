@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Review from '@/models/Review'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   try {
     await dbConnect()
-    
-    // Get query parameters
-    const { searchParams } = new URL(request.url)
+
+    const { searchParams } = request.nextUrl
     const limit = parseInt(searchParams.get('limit') || '10')
     const page = parseInt(searchParams.get('page') || '1')
     

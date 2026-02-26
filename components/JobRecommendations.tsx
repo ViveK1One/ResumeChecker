@@ -22,44 +22,19 @@ export default function JobRecommendations({ resumeKeywords = [], userLocation, 
   const detectUserLocation = async () => {
     setLocationLoading(true)
     try {
-      // Try to get location from props first
       if (userLocation) {
         setCurrentLocation(userLocation)
         return
       }
-
-      // Try to detect location from browser
-      if (navigator.geolocation) {
-        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            timeout: 10000,
-            enableHighAccuracy: false
-          })
-        })
-
-        // Reverse geocoding to get country
-        const response = await fetch(
-          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=en`
-        )
-        
-        if (response.ok) {
-          const data = await response.json()
-          setCurrentLocation(data.countryName || 'Worldwide')
-        } else {
-          setCurrentLocation('Worldwide')
-        }
+      // IP-based only (geolocation is disabled by Permissions-Policy)
+      const response = await fetch('https://ipapi.co/json/')
+      if (response.ok) {
+        const data = await response.json()
+        setCurrentLocation(data.country_name || 'Worldwide')
       } else {
-        // Fallback to IP-based location detection
-        const response = await fetch('https://api.ipapi.com/api/check?access_key=free')
-        if (response.ok) {
-          const data = await response.json()
-          setCurrentLocation(data.country_name || 'Worldwide')
-        } else {
-          setCurrentLocation('Worldwide')
-        }
+        setCurrentLocation('Worldwide')
       }
-    } catch (error) {
-      console.log('Location detection failed, using default:', error)
+    } catch {
       setCurrentLocation('Worldwide')
     } finally {
       setLocationLoading(false)

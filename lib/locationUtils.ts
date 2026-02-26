@@ -95,37 +95,17 @@ export const countries: Record<string, CountryInfo> = {
   }
 }
 
-// Detect user location using multiple methods
+// Detect user location (IP-based only; geolocation is disabled by Permissions-Policy)
 export async function detectUserLocation(): Promise<string> {
   try {
-    // Method 1: Try browser geolocation
-    if (navigator.geolocation) {
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          timeout: 10000,
-          enableHighAccuracy: false
-        })
-      })
-
-      // Reverse geocoding to get country
-      const response = await fetch(
-        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=en`
-      )
-      
-      if (response.ok) {
-        const data = await response.json()
-        return data.countryName || 'Worldwide'
-      }
-    }
-
-    // Method 2: IP-based location detection
+    // IP-based location detection
     const response = await fetch('https://api.ipapi.com/api/check?access_key=free')
     if (response.ok) {
       const data = await response.json()
       return data.country_name || 'Worldwide'
     }
 
-    // Method 3: Alternative IP service
+    // Alternative IP service
     const altResponse = await fetch('https://ipapi.co/json/')
     if (altResponse.ok) {
       const data = await altResponse.json()
@@ -133,8 +113,7 @@ export async function detectUserLocation(): Promise<string> {
     }
 
     return 'Worldwide'
-  } catch (error) {
-    console.log('Location detection failed:', error)
+  } catch {
     return 'Worldwide'
   }
 }

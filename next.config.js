@@ -3,6 +3,9 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ['pdf-parse', 'mammoth'],
   },
+  async rewrites() {
+    return [{ source: '/favicon.ico', destination: '/icon.svg' }]
+  },
   webpack: (config) => {
     config.externals.push({
       'utf-8-validate': 'commonjs utf-8-validate',

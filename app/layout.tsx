@@ -12,6 +12,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  icons: { icon: '/icon.svg' },
   title: 'ResumeAI — AI-Powered Resume Analysis & ATS Optimizer',
   description: 'Get instant AI-powered resume feedback. Optimize for ATS, match job descriptions, generate cover letters, and land more interviews.',
   keywords: 'resume checker, ATS optimizer, resume analysis, AI resume review, job description matcher, cover letter generator',

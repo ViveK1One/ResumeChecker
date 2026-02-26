@@ -2,15 +2,15 @@ import { NextRequest, NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Resume from '@/models/Resume'
 
-// Ensure we're using the correct collection name
+export const dynamic = 'force-dynamic'
+
 const ResumeModel = Resume
 
 export async function GET(request: NextRequest) {
   try {
     await dbConnect()
 
-    // Get query parameters
-    const { searchParams } = new URL(request.url)
+    const { searchParams } = request.nextUrl
     const period = searchParams.get('period') || '7d' // 7d, 30d, 90d, all
     const limit = parseInt(searchParams.get('limit') || '10')
 
