@@ -46,22 +46,22 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async jwt({ token, user }: { token: Record<string, unknown>; user?: Record<string, unknown> }) {
+        async jwt({ token, user }) {
             if (user) {
                 token.id = user.id
                 token.email = user.email
                 token.name = user.name
-                token.subscriptionTier = user.subscriptionTier
+                token.subscriptionTier = (user as { subscriptionTier?: string }).subscriptionTier
             }
             return token
         },
-        async session({ session, token }: { session: Record<string, unknown>; token: Record<string, unknown> }) {
-            const s = session as { user?: Record<string, unknown> }
-            if (s.user) {
-                s.user.id = token.id as string
-                s.user.email = token.email as string
-                s.user.name = token.name as string
-                s.user.subscriptionTier = token.subscriptionTier as string
+        async session({ session, token }) {
+            if (session?.user) {
+                const u = session.user as Record<string, unknown>
+                u.id = token.id as string
+                u.email = token.email as string
+                u.name = token.name as string
+                u.subscriptionTier = token.subscriptionTier as string
             }
             return session
         },

@@ -93,6 +93,7 @@ export default function ProfilePage() {
             const res = await fetch('/api/stripe/portal', { method: 'POST' })
             const data = await res.json()
             if (data.url) window.location.href = data.url
+            else alert(data.error || 'Billing portal coming soon (Razorpay).')
         } catch {
             alert('Could not open billing portal. Please try again.')
         } finally {

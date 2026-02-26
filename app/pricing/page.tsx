@@ -201,9 +201,9 @@ export default function PricingPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
                     {PLANS.map((plan, i) => {
                         const isHighlight = plan.highlight
-                        const price = billing === 'yearly' && plan.id === 'pro_monthly'
+                        const price = (billing === 'yearly' && plan.id === 'pro_monthly'
                             ? plan.yearlyMonthly
-                            : plan.price.monthly
+                            : plan.price.monthly) ?? 0
                         const Icon = plan.icon
                         const isLoading = loadingPlan === plan.id
 

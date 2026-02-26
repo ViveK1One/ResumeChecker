@@ -177,23 +177,22 @@ export function formatSalary(amount: string, country: string): string {
   }
 }
 
+// Helper: get offset for a timezone string (e.g. 'Asia/Kolkata')
+function getOffsetForTimezone(timezone: string): number {
+  try {
+    const date = new Date()
+    const str = date.toLocaleString('en-US', { timeZone: timezone })
+    const target = new Date(str)
+    return (target.getTime() - date.getTime()) / 60000
+  } catch {
+    return 0
+  }
+}
+
 // Get timezone offset for a country
 export function getTimezoneOffset(country: string): number {
   const countryInfo = getCountryInfo(country)
   if (!countryInfo) return 0
-
-  const now = new Date()
-  const utc = now.getTime() + (now.getTimezoneOffset() * 60000)
-  const countryTime = new Date(utc + (getTimezoneOffset(countryInfo.timezone) * 60000))
-  
-  return countryTime.getTimezoneOffset()
-}
-
-// Helper function to get timezone offset
-function getTimezoneOffset(timezone: string): number {
-  const date = new Date()
-  const utc = date.getTime() + (date.getTimezoneOffset() * 60000)
-  const targetTime = new Date(utc + (new Date().toLocaleString("en-US", {timeZone: timezone}) as any))
-  return targetTime.getTimezoneOffset()
+  return getOffsetForTimezone(countryInfo.timezone)
 }
 
