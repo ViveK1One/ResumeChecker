@@ -58,18 +58,13 @@ Copy the example environment file and add your OpenAI API key:
 cp env.example .env.local
 ```
 
-Edit `.env.local` and add your API keys and MongoDB URI:
+Edit `.env.local` and set these variables (use your own values — never commit real keys):
 
-```env
-# Primary AI service (recommended)
-GEMINI_API_KEY=your_gemini_api_key_here
-
-# Fallback AI service (optional)
-OPENAI_API_KEY=your_openai_api_key_here
-
-# Database
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=majority
-```
+- `GEMINI_API_KEY` — from [Google AI Studio](https://aistudio.google.com/apikey)
+- `OPENAI_API_KEY` — from [OpenAI](https://platform.openai.com/api-keys) (optional fallback)
+- `NEXTAUTH_SECRET` — random string, e.g. `openssl rand -base64 32`
+- `NEXTAUTH_URL` — e.g. `http://localhost:3000`
+- `MONGODB_URI` — from [MongoDB Atlas](https://www.mongodb.com/atlas) (connection string for your cluster)
 
 **API Key Setup:**
 1. **Gemini API Key**: Get your free API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
@@ -180,12 +175,7 @@ The app can be deployed to any platform that supports Next.js:
 
 ### Environment Variables for Production
 
-Make sure to set these in your production environment:
-
-```env
-OPENAI_API_KEY=your_production_openai_key
-NODE_ENV=production
-```
+Set these in your hosting dashboard (Vercel, etc.): `GEMINI_API_KEY`, `OPENAI_API_KEY`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `MONGODB_URI`, and `NODE_ENV=production`. Never commit real values to the repo.
 
 ## 🔒 Security Considerations
 
