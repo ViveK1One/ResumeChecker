@@ -153,7 +153,7 @@ export default function PricingPage() {
                 </div>
             </nav>
 
-            <div className="max-w-6xl mx-auto px-4 py-20">
+            <div className="max-w-6xl mx-auto px-4 py-12 sm:py-20 w-full min-w-0">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -299,46 +299,51 @@ export default function PricingPage() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mb-20"
+                    className="mb-20 w-full min-w-0"
                 >
-                    <h2 className="text-3xl font-bold text-white text-center mb-8">Full feature comparison</h2>
-                    <div className="bg-gray-900/60 border border-gray-700/50 rounded-2xl overflow-hidden backdrop-blur-sm">
-                        <table className="w-full text-sm">
-                            <thead>
-                                <tr className="border-b border-gray-700/50">
-                                    <th className="text-left p-5 text-gray-400 font-medium">Feature</th>
-                                    <th className="text-center p-5 text-gray-300 font-semibold">Free</th>
-                                    <th className="text-center p-5 text-blue-300 font-semibold">Pro</th>
-                                    <th className="text-center p-5 text-yellow-300 font-semibold">Lifetime</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {FEATURES_COMPARISON.map((row, i) => (
-                                    <tr
-                                        key={row.name}
-                                        className={`border-b border-gray-800/50 ${i % 2 === 0 ? 'bg-gray-900/20' : ''}`}
-                                    >
-                                        <td className="p-4 text-gray-300">{row.name}</td>
-                                        {(['free', 'pro', 'lifetime'] as const).map(col => (
-                                            <td key={col} className="p-4 text-center">
-                                                {typeof row[col] === 'boolean' ? (
-                                                    row[col] ? (
-                                                        <Check className={`w-5 h-5 mx-auto ${col === 'free' ? 'text-green-400' : col === 'pro' ? 'text-blue-400' : 'text-yellow-400'}`} />
-                                                    ) : (
-                                                        <span className="text-gray-700">—</span>
-                                                    )
-                                                ) : (
-                                                    <span className={`text-sm ${col === 'free' ? 'text-gray-400' : col === 'pro' ? 'text-blue-300' : 'text-yellow-300'}`}>
-                                                        {String(row[col])}
-                                                    </span>
-                                                )}
-                                            </td>
-                                        ))}
+                    <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-6 sm:mb-8">Full feature comparison</h2>
+                    {/* Single scroll wrapper: table is direct child so horizontal scroll works on mobile */}
+                    <div
+                        className="-mx-4 sm:mx-0 px-4 sm:px-0 overflow-x-auto rounded-2xl border border-gray-700/50 bg-gray-900/60 backdrop-blur-sm"
+                        style={{ WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
+                    >
+                            <table className="w-full text-sm min-w-[560px] sm:min-w-0">
+                                <thead>
+                                    <tr className="border-b border-gray-700/50">
+                                        <th className="text-left p-3 sm:p-5 text-gray-400 font-medium">Feature</th>
+                                        <th className="text-center p-3 sm:p-5 text-gray-300 font-semibold">Free</th>
+                                        <th className="text-center p-3 sm:p-5 text-blue-300 font-semibold">Pro</th>
+                                        <th className="text-center p-3 sm:p-5 text-yellow-300 font-semibold">Lifetime</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {FEATURES_COMPARISON.map((row, i) => (
+                                        <tr
+                                            key={row.name}
+                                            className={`border-b border-gray-800/50 ${i % 2 === 0 ? 'bg-gray-900/20' : ''}`}
+                                        >
+                                            <td className="p-3 sm:p-4 text-gray-300 text-xs sm:text-sm">{row.name}</td>
+                                            {(['free', 'pro', 'lifetime'] as const).map(col => (
+                                                <td key={col} className="p-3 sm:p-4 text-center">
+                                                    {typeof row[col] === 'boolean' ? (
+                                                        row[col] ? (
+                                                            <Check className={`w-5 h-5 mx-auto ${col === 'free' ? 'text-green-400' : col === 'pro' ? 'text-blue-400' : 'text-yellow-400'}`} />
+                                                        ) : (
+                                                            <span className="text-gray-700">—</span>
+                                                        )
+                                                    ) : (
+                                                        <span className={`text-xs sm:text-sm ${col === 'free' ? 'text-gray-400' : col === 'pro' ? 'text-blue-300' : 'text-yellow-300'}`}>
+                                                            {String(row[col])}
+                                                        </span>
+                                                    )}
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                     </div>
+                    <p className="text-gray-500 text-xs sm:hidden text-center mt-3">Scroll horizontally to see all columns</p>
                 </motion.div>
 
                 {/* FAQ */}
