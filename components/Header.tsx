@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
-import { Menu, X, Sparkles, Crown, User, LogOut, ChevronDown, Loader2, FileEdit } from 'lucide-react'
+import { Menu, X, Sparkles, Crown, User, LogOut, ChevronDown, Loader2, FileEdit, Briefcase } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Header() {
@@ -95,6 +95,14 @@ export default function Header() {
                           Resume Builder
                         </Link>
                         <Link
+                          href="/dashboard/application-pack"
+                          onClick={() => setIsUserMenuOpen(false)}
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
+                        >
+                          <Briefcase className="w-4 h-4" />
+                          Application Pack
+                        </Link>
+                        <Link
                           href="/profile"
                           onClick={() => setIsUserMenuOpen(false)}
                           className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
@@ -168,6 +176,9 @@ export default function Header() {
                   <>
                     <Link href="/dashboard/resume-builder" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-2 py-2 text-gray-300 hover:text-white text-sm">
                       <FileEdit className="w-4 h-4" /> Resume Builder
+                    </Link>
+                    <Link href="/dashboard/application-pack" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-2 py-2 text-gray-300 hover:text-white text-sm">
+                      <Briefcase className="w-4 h-4" /> Application Pack
                     </Link>
                     <Link href="/profile" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 px-2 py-2 text-gray-300 hover:text-white text-sm">
                       <User className="w-4 h-4" /> Profile

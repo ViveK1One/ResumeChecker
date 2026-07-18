@@ -56,6 +56,8 @@ export default function ResumeBuilderClient() {
   const [showStart, setShowStart] = useState(false)
   const [draftsList, setDraftsList] = useState<{ id: string; title: string }[]>([])
   const previewRef = useRef<HTMLDivElement>(null)
+  /** Prevents re-loading ?id= while navigating back to the mode picker */
+  const returningToStartRef = useRef(false)
 
   const previewContent = useMemo(() => {
     const mode = draft.layoutOptions.onePageMode ? 'onePage' : 'full'
@@ -69,8 +71,10 @@ export default function ResumeBuilderClient() {
 
   const loadDraft = useCallback(
     async (id: string) => {
+      returningToStartRef.current = false
       setLoading(true)
       setSaveError(null)
+      setShowStart(false)
       try {
         const r = await fetch(`/api/resume-drafts/${id}`, { credentials: 'include' })
         if (!r.ok) throw new Error('Could not load resume draft.')
@@ -133,23 +137,52 @@ export default function ResumeBuilderClient() {
   )
 
   useEffect(() => {
+    if (returningToStartRef.current) {
+      if (!paramId) {
+        returningToStartRef.current = false
+        setDraftId(null)
+        setShowStart(true)
+        setLoading(false)
+      }
+      return
+    }
     if (paramId && paramId !== draftId) {
       void loadDraft(paramId)
     } else if (!paramId) {
+      setDraftId(null)
       setLoading(false)
       setShowStart(true)
     }
   }, [paramId, draftId, loadDraft])
 
+  const goToAllModes = useCallback(() => {
+    returningToStartRef.current = true
+    setDraftId(null)
+    setShowStart(true)
+    setLoading(false)
+    setSaveError(null)
+    router.replace('/dashboard/resume-builder')
+  }, [router])
+
   useEffect(() => {
-    if (!draftId) return
+    if (!showStart) return
     fetch('/api/resume-drafts', { credentials: 'include' })
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (d?.drafts) setDraftsList(d.drafts.map((x: { id: string; title: string }) => ({ id: x.id, title: x.title })))
       })
       .catch(() => {})
-  }, [draftId])
+  }, [showStart])
+
+  useEffect(() => {
+    if (!draftId || showStart) return
+    fetch('/api/resume-drafts', { credentials: 'include' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d?.drafts) setDraftsList(d.drafts.map((x: { id: string; title: string }) => ({ id: x.id, title: x.title })))
+      })
+      .catch(() => {})
+  }, [draftId, showStart])
 
   const persist = useCallback(
     async (next: ResumeDraftContent, nextTitle?: string) => {
@@ -423,6 +456,24 @@ export default function ResumeBuilderClient() {
             </div>
           </button>
         </div>
+        {draftsList.length > 0 && (
+          <div className="mt-10">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Open recent</p>
+            <ul className="space-y-2">
+              {draftsList.map((d) => (
+                <li key={d.id}>
+                  <button
+                    type="button"
+                    onClick={() => void loadDraft(d.id)}
+                    className="w-full text-left px-4 py-3 rounded-xl border border-gray-800 bg-gray-900/60 hover:border-blue-500/40 text-sm text-gray-200"
+                  >
+                    {d.title || 'Untitled'}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         {saveError && <p className="text-red-400 text-sm mt-6">{saveError}</p>}
       </div>
     )
@@ -448,18 +499,13 @@ export default function ResumeBuilderClient() {
   return (
     <div className="flex flex-col min-h-screen">
       <div className="border-b border-gray-800 bg-black/40 px-4 py-3 flex flex-wrap items-center gap-3">
-        <Link
-          href="/dashboard/resume-builder"
+        <button
+          type="button"
+          onClick={goToAllModes}
           className="text-gray-400 hover:text-white text-sm inline-flex items-center gap-1"
-          onClick={(e) => {
-            e.preventDefault()
-            setDraftId(null)
-            setShowStart(true)
-            router.replace('/dashboard/resume-builder')
-          }}
         >
           <ChevronLeft className="w-4 h-4" /> All modes
-        </Link>
+        </button>
         <input
           value={title}
           onChange={(e) => {

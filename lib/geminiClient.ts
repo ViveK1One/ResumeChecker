@@ -6,14 +6,15 @@ export async function callGeminiAPIWithModel(
   prompt: string,
   model: string,
   apiKey: string,
-  retryOn429 = true
+  retryOn429 = true,
+  options?: { maxOutputTokens?: number; temperature?: number }
 ): Promise<string> {
   const url = `${GEMINI_BASE}/${model}:generateContent?key=${apiKey}`
   const body: Record<string, unknown> = {
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: {
-      temperature: model.startsWith('gemini-2.5') ? 1 : 0.2,
-      maxOutputTokens: 8192,
+      temperature: options?.temperature ?? (model.startsWith('gemini-2.5') ? 1 : 0.2),
+      maxOutputTokens: options?.maxOutputTokens ?? 8192,
       topP: 0.95,
     },
   }
@@ -40,7 +41,7 @@ export async function callGeminiAPIWithModel(
     const errDetail = data?.error?.message || JSON.stringify(data)
     if (response.status === 429 && retryOn429) {
       await new Promise((r) => setTimeout(r, 10000))
-      return callGeminiAPIWithModel(prompt, model, apiKey, false)
+      return callGeminiAPIWithModel(prompt, model, apiKey, false, options)
     }
     throw new Error(`Gemini API error (${response.status}): ${errDetail}`)
   }
@@ -54,11 +55,15 @@ export async function callGeminiAPIWithModel(
   return text
 }
 
-export async function tryGeminiModels(prompt: string, apiKey: string): Promise<string> {
+export async function tryGeminiModels(
+  prompt: string,
+  apiKey: string,
+  options?: { maxOutputTokens?: number; temperature?: number }
+): Promise<string> {
   let last = ''
   for (const model of GEMINI_MODELS_TO_TRY) {
     try {
-      return await callGeminiAPIWithModel(prompt, model, apiKey)
+      return await callGeminiAPIWithModel(prompt, model, apiKey, true, options)
     } catch (e) {
       last = e instanceof Error ? e.message : String(e)
     }
