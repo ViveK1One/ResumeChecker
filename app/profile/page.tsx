@@ -121,6 +121,9 @@ export default function ProfilePage() {
                         <Link href="/" className="text-gray-400 hover:text-white text-sm transition-colors">
                             Analyze Resume
                         </Link>
+                        <Link href="/dashboard/resume-builder" className="text-gray-400 hover:text-white text-sm transition-colors">
+                            Resume Builder
+                        </Link>
                         <button
                             onClick={handleSignOut}
                             disabled={signOutLoading}
