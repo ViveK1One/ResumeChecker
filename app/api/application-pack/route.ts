@@ -26,7 +26,7 @@ export const maxDuration = 120
 const rateStore = new Map<string, { count: number; reset: number }>()
 
 /** Free users get this many full Application Pack generations before Pro is required. */
-export const FREE_APPLICATION_PACK_LIMIT = 3
+const FREE_APPLICATION_PACK_LIMIT = 3
 
 function rateLimit(ip: string, max = 8): boolean {
   const now = Date.now()

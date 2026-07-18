@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
         await user.save()
 
         return NextResponse.json(
-            { message: 'Account created successfully', userId: user._id.toString() },
+            { message: 'Account created successfully', userId: String(user._id) },
             { status: 201 }
         )
     } catch (error: unknown) {
